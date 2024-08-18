@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import useSWR from "swr";
 
@@ -10,7 +10,6 @@ import Modal from "./components/Modal";
 
 import styles from "./styles.module.css";
 import Cover from "./components/Cover";
-import { usePathname } from "next/navigation";
 import { fetcher } from "@/app/utils/fetcher";
 import { deleteCookie } from "@/app/utils/сookies";
 import { AuthContext } from "@/app/context/AuthContext";
@@ -19,16 +18,37 @@ interface AccountPageProps {
   params: { slug: string };
 }
 
-const AccountPage: FC<AccountPageProps> = ({ params }) => {
+const AccountPage: FC<AccountPageProps> = ({ params: { slug } }: { params: { slug: string } }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [canEdit, setCanEdit] = useState<boolean>(false);
   const authContext = useContext(AuthContext);
-  const accountName = usePathname().split("/").filter(Boolean).pop();
-  const { data } = useSWR(`/api/account/${accountName}`, fetcher);
 
-  if (!data || !authContext) return null;
+  const { data } = useSWR( `/api/account/${slug.replace('%40', '--')}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (!authContext) {
+      console.error('authContext недоступен');
+      return;
+    }
+    const { userEmail, isAuthenticated } = authContext;
+
+    if (userEmail.replace('@', '%40') === slug && isAuthenticated === true) {
+      setCanEdit(true);
+    } else {
+      setCanEdit(false);
+    }
+  }, [authContext, slug]);
+
+  if (!authContext) {
+    return <div>authContext недоступен</div>;
+  }
+
+  if (!data) return null;
 
   const { isAuthenticated, setIsAuthenticated } = authContext;
-  const { avatar, name, email: userEmail, description } = data;
+  const { image, name, email, description } = data;
 
   const handleClickEdit = () => {
     setIsModalOpen(!isModalOpen);
@@ -44,8 +64,8 @@ const AccountPage: FC<AccountPageProps> = ({ params }) => {
       {isModalOpen && <Modal onCloseClick={handleClickEdit} />}
       <Cover />
       <div className={styles.accountPage__mainContentContainer}>
-        {avatar ? (
-          <Image src={avatar} alt={"User avatar"} fill />
+        {image ? (
+          <Image src={image} alt={"User avatar"} fill />
         ) : (
           <div className={styles.accountPage__placeholderContainer}>
             <AvatarPlaceholder name={name} size={"big"} />
@@ -53,8 +73,8 @@ const AccountPage: FC<AccountPageProps> = ({ params }) => {
         )}
         <div className={styles.accountPage__informationContainer}>
           <h1 className={styles.accountPage__accountName}>{name}</h1>
-          <p className={styles.accountPage__accountEmail}>{userEmail}</p>
-          {isAuthenticated && (
+          <p className={styles.accountPage__accountEmail}>{email}</p>
+          {canEdit && (
             <div className={styles.accountPage__editButtonContainer}>
               <Button
                 text="Редактировать"
@@ -66,7 +86,7 @@ const AccountPage: FC<AccountPageProps> = ({ params }) => {
           <p className={styles.accountPage__accountDescription}>
             {description}
           </p>
-          {isAuthenticated && (
+          {canEdit && isAuthenticated && (
             <div className={styles.accountPage__signOutButtonContainer}>
               <Button
                 size="sm"

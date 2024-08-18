@@ -22,12 +22,38 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
-  const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext) ?? {
+    setIsAuthenticated: () => {},
+    setUserEmail: () => {},
+  };
+  const { setIsAuthenticated, setUserEmail } = authContext;
 
-  if (!authContext) {
-    return null;
-  }
-  const { setIsAuthenticated } = authContext;
+  const handleLogin = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      const token = await response.json();
+      document.cookie = `authToken=${token}; path=/`;
+      document.cookie = `userEmail=${email}; path=/`;
+
+      setIsAuthenticated(true);
+      setUserEmail(email);
+
+      router.push(`/account/${email}`);
+    } else {
+      console.error("Login faile");
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -35,42 +61,7 @@ const LoginForm = () => {
       password: "",
     },
     validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const loginResponse = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
-
-        if (!loginResponse.ok) {
-          throw new Error("Failed to sign in");
-        }
-
-        const formattedSlug = values.email.replace("@", "--");
-
-        const fetchUserDataResponse = await fetch(
-          `/api/account/${formattedSlug}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-        if (!fetchUserDataResponse.ok) {
-          throw new Error("Failed to fetch data");
-        } else {
-          setIsAuthenticated(true);
-          router.push(`/account/${formattedSlug}`);
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        } else {
-          console.error("An unknown error occurred");
-        }
-      }
-    },
+    onSubmit: handleLogin,
   });
 
   const handleSwitchShowPassword = () => {

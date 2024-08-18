@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Button from "../Button";
 import styles from "./styles.module.css";
 import Icon from "../Icon/Icon";
 import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
+import { AuthContext } from "@/app/context/AuthContext";
 
 const validationSchema = Yup.object({
   name: Yup.string().nonNullable().trim().required("Name is required"),
@@ -21,6 +21,10 @@ const validationSchema = Yup.object({
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
+  const authContext = useContext(AuthContext) ?? {
+    setIsAuthenticated: () => {},
+    setUserEmail: () => {},
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -40,7 +44,9 @@ const RegisterForm = () => {
         if (!response.ok) {
           throw new Error("Failed to sign up");
         }
-        router.push("/");
+        authContext.setIsAuthenticated(true);
+        authContext.setUserEmail(values.email);
+        router.push(`/account/${values.email}`);
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

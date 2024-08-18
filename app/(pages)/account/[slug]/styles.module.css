@@ -1,6 +1,7 @@
 .accountPage__container {
     @apply relative;
 }
+
 .accountPage__mainContentContainer {
   @apply w-full px-[30px] lg:px-60;
 }

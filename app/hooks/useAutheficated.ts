@@ -27,7 +27,6 @@ export const useAuthenticated = () => {
       .split("; ")
       .find((row) => row.startsWith("authToken="))
       ?.split("=")[1];
-    console.log("Cookie Value:", cookieValue);
     setIsAuthenticated(!!cookieValue);
   }, []);
 

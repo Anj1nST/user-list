@@ -1,19 +1,14 @@
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request, 
-  { params }: { params: { slug: string } }
-) {
-  const slug = params.slug;
-
-  const res = await fetch(`https://frontend-test-api.yoldi.agency/api/user/${slug}`, {
+export async function GET(request: Request) {
+  const res = await fetch(`https://frontend-test-api.yoldi.agency/api/user`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
 
   if (!res.ok) {
     return NextResponse.json(
-      { message: "Failed to fetch profile" },
+      { message: "Failed to fetch data" },
       { status: res.status }
     );
   }
