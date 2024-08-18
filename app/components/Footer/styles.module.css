@@ -1,0 +1,12 @@
+.footerContainer {
+  @apply flex items-center justify-center;
+  @apply h-[72px];
+}
+
+.footer__text {
+  @apply text-gray;
+}
+
+.footer__link {
+  @apply text-txt-color;
+}

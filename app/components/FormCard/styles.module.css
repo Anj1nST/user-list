@@ -1,0 +1,10 @@
+.formCard {
+    @apply flex flex-col gap-[25px];
+    @apply w-[400px];
+    @apply p-[30px];
+    @apply bg-background-primary;
+}
+
+.formCard__title {
+    @apply text-big font-bold leading-big;
+}

@@ -1,0 +1,4 @@
+.loginPage__container {
+    @apply flex items-center justify-center;
+    @apply bg-strokes-primary;
+}

@@ -1,0 +1,37 @@
+.header__container {
+  @apply flex justify-between;
+  @apply h-20 w-full p-[15px];
+}
+
+.header__brandContainer {
+    @apply flex;
+}
+
+.header__logoContainer {
+  @apply flex items-center justify-center;
+  @apply h-[50px] w-20;
+  @apply mr-5;
+  @apply bg-accent;
+  @apply cursor-pointer;
+}
+
+.header__titleContainer {
+  @apply sm:hidden lg:visible h-full;
+}
+
+.header__userDataContainer {
+  @apply flex items-center justify-center gap-5;
+
+}
+
+.userDataContainer__avatarContainer {
+  @apply relative;
+}
+
+.header__avatarPlaceholder {
+  @apply flex items-center justify-center;
+  @apply h-[50px] w-[50px];
+  @apply border-strokes-secondary border-[1px];
+  @apply bg-background-secondary;
+  @apply rounded-full;
+}

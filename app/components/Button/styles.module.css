@@ -1,0 +1,15 @@
+.button {
+  @apply border-solid border-[1px] border-strokes-primary rounded-[5px];
+  @apply px-[33px] py-[7px];
+  @apply font-bold;
+}
+
+.formButton {
+  @apply border-solid border-[1px] bg-txt-color rounded-[5px];
+  @apply px-[33px] py-[7px];
+  @apply text-background-primary font-bold;
+}
+
+.button_disabled {
+  @apply bg-strokes-primary text-background-secondary;
+}
