@@ -1,0 +1,47 @@
+.editUserForm {
+  @apply flex flex-col gap-[25px];
+  @apply h-full;
+}
+
+.editUserForm__label {
+  @apply block;
+  @apply mb-[5px];
+}
+
+.editUserForm__labelText {
+  @apply text-gray;
+}
+
+.editUserForm__input {
+  @apply w-full max-h-[50px];
+  @apply px-[20px] py-3;
+  @apply border border-strokes-primary rounded-[5px];
+}
+
+.editUserForm__addressInputContainer {
+  @apply flex;
+  @apply h-full;
+}
+
+.editUserForm__addressInputPrefixContainer {
+  @apply flex items-center justify-center;
+  @apply h-[50px] w-[146px];
+  @apply px-[20px] py-3;
+  @apply border-strokes-primary rounded-s-[5px];
+  @apply bg-background-secondary;
+}
+
+.editUserForm__addressInputPrefixText {
+  @apply text-gray;
+}
+
+.editUserForm__addressInput {
+  @apply max-h-[50px] w-full;
+  @apply px-[20px] py-3;
+  @apply border border-strokes-primary rounded-e-[5px];
+}
+
+.editUserForm__buttonsContainer {
+    @apply flex gap-[10px];
+    @apply mt-auto lg:mt-0;
+}

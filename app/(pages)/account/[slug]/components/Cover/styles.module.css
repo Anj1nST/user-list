@@ -1,0 +1,4 @@
+.cover__container {
+    @apply h-[200px] w-full;
+    @apply border-[1px] border-strokes-secondary;
+}

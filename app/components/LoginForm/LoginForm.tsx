@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import Button from "../Button";
-import styles from "./styles.module.css";
-import Icon from "../Icon/Icon";
 import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
+
+import styles from "./styles.module.css";
+
+import Button from "../Button";
+import Icon from "../Icon/Icon";
+import { AuthContext } from "@/app/context/AuthContext";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -20,6 +22,12 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    return null;
+  }
+  const { setIsAuthenticated } = authContext;
 
   const formik = useFormik({
     initialValues: {
@@ -29,16 +37,32 @@ const LoginForm = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const response = await fetch("/api/login", {
+        const loginResponse = await fetch("/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to sign up");
+        if (!loginResponse.ok) {
+          throw new Error("Failed to sign in");
         }
-        router.push("/");
+
+        const formattedSlug = values.email.replace("@", "--");
+
+        const fetchUserDataResponse = await fetch(
+          `/api/account/${formattedSlug}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (!fetchUserDataResponse.ok) {
+          throw new Error("Failed to fetch data");
+        } else {
+          setIsAuthenticated(true);
+          router.push(`/account/${formattedSlug}`);
+        }
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

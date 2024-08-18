@@ -1,0 +1,14 @@
+.avatarPlaceholder__container {
+  @apply absolute;
+  @apply flex items-center justify-center;
+  @apply bg-background-secondary border-[1px] border-strokes-secondary rounded-full;
+  @apply text-txt-color;
+}
+
+.avatarPlaceholder__container_big {
+  @apply h-[100px] w-[100px];
+}
+
+.avatarPlaceholder__container_small {
+  @apply h-[100px] w-[100px];
+}

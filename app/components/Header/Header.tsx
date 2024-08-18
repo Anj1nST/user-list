@@ -1,18 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "./components/Logo";
 
 import styles from "./styles.module.css";
 import Button from "../Button";
-import { useRouter } from "next/navigation";
-import { useAuthenticated } from "@/app/hooks/useAutheficated";
+import { usePathname, useRouter } from "next/navigation";
+import useSWR from "swr";
+import Image from "next/image";
+import { fetcher } from "@/app/utils/fetcher";
+import { AuthContext } from "@/app/context/AuthContext";
 
 const Header = () => {
-  const isAuthenticated = useAuthenticated();
-  const { data } = { data: { name: "Владислав", image: null } };
-
   const router = useRouter();
+  const accountName = usePathname().split("/").filter(Boolean).pop();
+  const { data } = useSWR(`/api/account/${accountName}`, fetcher);
+  const authContext = useContext(AuthContext);
+
+  if (!data || !authContext) return null;
+
+  const { isAuthenticated } = authContext;
+  const { name, image } = data;
 
   const handleLoginClick = () => {
     router.push("/login");
@@ -39,14 +47,15 @@ const Header = () => {
       {!isAuthenticated && <Button text="Войти" action={handleLoginClick} />}
       {!!isAuthenticated && (
         <div className={styles.header__userDataContainer}>
-          <p>{data.name}</p>
-          {!!data.image ? (
+          <p>{name}</p>
+          {!!image && (
             <div className={styles.header__avatarContainer}>
-              {/* <Image src={data?.image} alt="imageOfUser" fill /> */}
+              <Image src={image} alt="imageOfUser" fill />
             </div>
-          ) : (
+          )}
+          {!image && name && (
             <div className={styles.header__avatarPlaceholder}>
-              <p>{data.name[0]}</p>
+              <p>{name[0]}</p>
             </div>
           )}
         </div>
