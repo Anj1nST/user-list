@@ -1,0 +1,5 @@
+.modal__container {
+    @apply absolute w-full h-full z-10;
+    @apply flex items-center justify-center;
+    @apply bg-txt-color bg-opacity-30;
+}

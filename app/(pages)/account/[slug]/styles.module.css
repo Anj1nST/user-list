@@ -1,0 +1,41 @@
+.accountPage__container {
+    @apply relative;
+}
+.accountPage__mainContentContainer {
+  @apply w-full px-[30px] lg:px-60;
+}
+
+.accountPage__placeholderContainer {
+  @apply h-[50px];
+  @apply relative top-[-50px];
+  @apply mb-[35px];
+}
+
+.accountPage__informationContainer {
+    @apply lg:grid lg:grid-cols-2;
+}
+
+.accountPage__accountName {
+    @apply mb-[10px]; 
+    @apply lg:col-[1];
+}
+
+.accountPage__accountEmail {
+    @apply text-gray;
+    @apply mb-[30px];
+    @apply lg:col-[1];
+}
+
+.accountPage__editButtonContainer {
+    @apply mb-[30px];
+    @apply lg:col-[2] lg:row-[1];
+}
+
+.accountPage__accountDescription {
+    @apply mb-[60px];
+    @apply lg:col-[1];
+}
+
+.accountPage__signOutButtonContainer {
+    @apply lg:col-[1];
+}

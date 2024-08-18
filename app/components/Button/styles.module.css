@@ -1,7 +1,8 @@
 .button {
+  @apply flex items-center justify-center;
+  @apply w-fit;
   @apply border-solid border-[1px] border-strokes-primary rounded-[5px];
-  @apply px-[33px] py-[7px];
-  @apply font-bold;
+  @apply cursor-pointer;
 }
 
 .formButton {
@@ -10,6 +11,36 @@
   @apply text-background-primary font-bold;
 }
 
+.button_smallSize {
+  @apply px-[22px] py-[7px];
+}
+
+.button_normalSize {
+  @apply px-[33px] py-[7px];
+}
+
+.button__iconContainer {
+  @apply flex items-center justify-center;
+  @apply h-[25px] w-[25px];
+  @apply mr-[10px];
+}
+
+.button__text {
+  @apply font-bold;
+}
+
+.button__formText {
+  @apply text-background-primary;
+}
+
+.button__formText_disabled {
+  @apply text-background-secondary;
+}
+
+.button_fullWidth {
+  @apply w-full;
+}
+
 .button_disabled {
-  @apply bg-strokes-primary text-background-secondary;
+  @apply bg-strokes-primary;
 }

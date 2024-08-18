@@ -1,10 +1,23 @@
 .formCard {
-    @apply flex flex-col gap-[25px];
-    @apply w-[400px];
-    @apply p-[30px];
-    @apply bg-background-primary;
+  @apply flex flex-col gap-[25px];
+  @apply w-full;
+  @apply rounded-[5px];
+  @apply p-[30px];
+  @apply bg-background-primary;
+}
+
+.formCard_width400 {
+  @apply lg:w-[400px];
+}
+
+.formCard_width600 {
+  @apply lg:w-[600px];
+}
+
+.formCard_fullHeight {
+  @apply h-full lg:h-auto;
 }
 
 .formCard__title {
-    @apply text-big font-bold leading-big;
+  @apply text-big font-bold leading-big;
 }

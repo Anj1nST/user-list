@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import ContextLayout from "./layouts/ContextLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Тестовое задание Yoldi",
   description: "User List Project",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,9 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
+        <ContextLayout>{children}</ContextLayout>
       </body>
     </html>
   );

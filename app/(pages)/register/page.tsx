@@ -8,7 +8,7 @@ const RegisterPage = () => {
   const title = `Регистрация в\nYoldi Agency`;
   return (
       <main className={styles.registerPage__container}>
-        <FormCard title={title}>
+        <FormCard title={title} width="400">
           <RegisterForm />
         </FormCard>
       </main>
