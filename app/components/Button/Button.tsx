@@ -34,10 +34,8 @@ const Button: React.FC<ButtonProps> = ({
   const disabledClassName = isDisabled ? styles.button_disabled : "";
   const fullWidthClassName = fullWidth && styles.button_fullWidth;
 
-  let ContentComponent = (): ReactNode => null;
-
-  if (Array.isArray(iconType) && iconType.length > 1) {
-    ContentComponent = () => {
+  const ContentComponent = () => {
+    if (Array.isArray(iconType) && iconType.length > 1) {
       return (
         <>
           <div className={styles.button__iconContainer}>
@@ -51,22 +49,23 @@ const Button: React.FC<ButtonProps> = ({
           </div>
         </>
       );
-    };
-  } else if (iconType && !Array.isArray(iconType)) {
-    ContentComponent = () => (
-      <>
-        {" "}
-        <div className={styles.button__iconContainer}>
-          <Icon type={iconType} />
-        </div>
+    } else if (iconType && !Array.isArray(iconType)) {
+      return (
+        <>
+          <div className={styles.button__iconContainer}>
+            <Icon type={iconType} />
+          </div>
+          <p className={`${formTextClassName} ${styles.button__text}`}>
+            {text}
+          </p>
+        </>
+      );
+    } else {
+      return (
         <p className={`${formTextClassName} ${styles.button__text}`}>{text}</p>
-      </>
-    );
-  } else {
-    ContentComponent = () => (
-      <p className={`${formTextClassName} ${styles.button__text}`}>{text}</p>
-    );
-  }
+      );
+    }
+  };
 
   return (
     <button
