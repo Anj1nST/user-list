@@ -12,22 +12,31 @@ import { fetcher } from "@/app/utils/fetcher";
 import { AuthContext } from "@/app/context/AuthContext";
 
 const Header = () => {
-  const router = useRouter();
-  const accountName = usePathname().split("/").filter(Boolean).pop();
-  const { data } = useSWR(`/api/account/${accountName}`, fetcher);
   const authContext = useContext(AuthContext);
+  const router = useRouter();
 
-  if (!data || !authContext) return null;
+  const isAuthenticated = authContext?.isAuthenticated ?? false;
+  const userEmail = authContext?.userEmail ?? "";
 
-  const { isAuthenticated } = authContext;
-  const { name, image } = data;
+  const { data } = useSWR(
+    isAuthenticated ? `/api/account/${userEmail.replace('@', '--')}` : null,
+    fetcher
+  );
+
+  if (!authContext) {
+    return <div>authContext недоступен</div>;
+  }
 
   const handleLoginClick = () => {
     router.push("/login");
   };
 
   const handleLogoClick = () => {
-    router.push("/");
+    router.push("/accountsList");
+  };
+
+  const handleUserClick = () => {
+    router.push(`/account/${userEmail}`)
   };
 
   return (
@@ -46,16 +55,16 @@ const Header = () => {
       </div>
       {!isAuthenticated && <Button text="Войти" action={handleLoginClick} />}
       {!!isAuthenticated && (
-        <div className={styles.header__userDataContainer}>
-          <p>{name}</p>
-          {!!image && (
+        <div className={styles.header__userDataContainer} onClick={handleUserClick}>
+          <p>{data?.name}</p>
+          {!!data?.image && (
             <div className={styles.header__avatarContainer}>
-              <Image src={image} alt="imageOfUser" fill />
+              <Image src={data?.image} alt="imageOfUser" fill />
             </div>
           )}
-          {!image && name && (
+          {!data?.image && data?.name && (
             <div className={styles.header__avatarPlaceholder}>
-              <p>{name[0]}</p>
+              <p>{data?.name[0]}</p>
             </div>
           )}
         </div>

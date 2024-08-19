@@ -1,0 +1,34 @@
+.accountsPage__container {
+  @apply w-full max-h-full px-[30px] pt-[50px] pb-[100px] lg:px-60;
+  @apply overflow-y-hidden;
+}
+
+.accountsList__list {
+  @apply h-full;
+  @apply overflow-auto;
+}
+
+.accountsList__title {
+  @apply mb-[30px];
+}
+
+.accountsList__userContainer {
+  @apply flex gap-[20px];
+  @apply border-y border-strokes-secondary;
+  @apply py-[10px];
+  @apply cursor-pointer;
+}
+
+.accountsList__avatarContainer {
+  @apply h-[52px] w-[52px] rounded-full;
+  @apply relative;
+  @apply overflow-hidden;
+}
+
+.accountsList__name {
+  @apply font-bold;
+}
+
+.accountsList__email {
+  @apply text-gray;
+}

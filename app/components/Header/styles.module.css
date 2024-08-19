@@ -4,7 +4,7 @@
 }
 
 .header__brandContainer {
-    @apply flex;
+  @apply flex;
 }
 
 .header__logoContainer {
@@ -16,12 +16,12 @@
 }
 
 .header__titleContainer {
-  @apply sm:hidden lg:visible h-full;
+  @apply hidden lg:block h-full;
 }
 
 .header__userDataContainer {
   @apply flex items-center justify-center gap-5;
-
+  @apply cursor-pointer;
 }
 
 .userDataContainer__avatarContainer {
