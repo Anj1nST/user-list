@@ -1,11 +1,13 @@
 .accountsPage__container {
+  @apply flex flex-col;
   @apply w-full max-h-full px-[30px] pt-[50px] pb-[100px] lg:px-60;
   @apply overflow-y-hidden;
 }
 
 .accountsList__list {
+  @apply flex flex-col;
   @apply h-full;
-  @apply overflow-auto;
+  @apply overflow-y-auto;
 }
 
 .accountsList__title {
@@ -20,15 +22,20 @@
 }
 
 .accountsList__avatarContainer {
-  @apply h-[52px] w-[52px] rounded-full;
+  @apply h-[52px] min-w-[52px] w-[52px] rounded-full;
   @apply relative;
   @apply overflow-hidden;
 }
 
+.accountsList__textInfo {
+  @apply flex flex-col;
+  @apply max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis;
+}
+
 .accountsList__name {
-  @apply font-bold;
+  @apply font-bold overflow-ellipsis;
 }
 
 .accountsList__email {
-  @apply text-gray;
+  @apply text-gray overflow-ellipsis;
 }

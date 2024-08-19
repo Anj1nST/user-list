@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request, 
+  request: Request,
   { params }: { params: { slug: string } }
 ) {
   const slug = params.slug;
 
-  const res = await fetch(`https://frontend-test-api.yoldi.agency/api/user/${slug}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const res = await fetch(
+    `https://frontend-test-api.yoldi.agency/api/user/${slug}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
   if (!res.ok) {
     return NextResponse.json(

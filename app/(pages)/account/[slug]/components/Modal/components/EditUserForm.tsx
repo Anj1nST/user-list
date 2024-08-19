@@ -12,8 +12,8 @@ interface EditUserFormProps {
 }
 
 const validationSchema = Yup.object({
-  name: Yup.string().nonNullable().required(),
-  address: Yup.string(),
+  name: Yup.string().nonNullable(),
+  slug: Yup.string().nonNullable(),
   description: Yup.string(),
 });
 
@@ -21,12 +21,31 @@ const EditUserForm: FC<EditUserFormProps> = ({ onCloseClick }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      address: "",
+      slug: "",
       description: "",
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        const res = await fetch("/api/profile", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
+
+        if (!res.ok) {
+          console.error("Ошибка при обновлении профиля");
+          return;
+        }
+
+        const updatedData = await res.json();
+        console.log("Профиль успешно обновлен:", updatedData);
+        onCloseClick(); // Закрыть форму после успешного обновления
+      } catch (error) {
+        console.error("Произошла ошибка:", error);
+      }
     },
   });
 
@@ -48,7 +67,7 @@ const EditUserForm: FC<EditUserFormProps> = ({ onCloseClick }) => {
         />
       </div>
       <div>
-        <label htmlFor="address" className={styles.editUserForm__label}>
+        <label htmlFor="slug" className={styles.editUserForm__label}>
           <p className={styles.editUserForm__labelText}>Адрес профиля</p>
         </label>
         <div className={styles.editUserForm__addressInputContainer}>
@@ -59,13 +78,13 @@ const EditUserForm: FC<EditUserFormProps> = ({ onCloseClick }) => {
           </div>
           <input
             className={`${styles.editUserForm__addressInput} ${
-              formik.errors.address ? "outline-error" : ""
+              formik.errors.slug ? "outline-error" : ""
             }`}
-            name="address"
+            name="slug"
             type="text"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.address}
+            value={formik.values.slug}
           />
         </div>
       </div>
@@ -105,3 +124,4 @@ const EditUserForm: FC<EditUserFormProps> = ({ onCloseClick }) => {
 };
 
 export default EditUserForm;
+

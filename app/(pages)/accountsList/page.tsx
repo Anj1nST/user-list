@@ -25,25 +25,24 @@ const AccountList = () => {
     <main className={styles.accountsPage__container}>
       <h1 className={styles.accountsList__title}>Список аккаунтов</h1>
       <ul className={styles.accountsList__list}>
-        {data.map(({ name, email, image }: UserData) => (
+        {data.map(({ name, email, image, slug }: UserData) => (
           <li
             key={email}
             className={styles.accountsList__userContainer}
-            onClick={() => handleClickUser(email)}
+            onClick={() => handleClickUser(slug)}
           >
             <div className={styles.accountsList__avatarContainer}>
               {!!image && !!image.url.match(/^\/|^(https?:\/\/)/) && (
                 <Image
                   src={image.url}
                   alt="imageOfUser"
-                  width={52}
-                  height={52}
+                  fill
                   objectFit="cover"
                 />
               )}
               {!image?.url && <AvatarPlaceholder name={name} size={"sm"} />}
             </div>
-            <div>
+            <div className={styles.accountsList__textInfo}>
               <p className={styles.accountsList__name}>{name}</p>
               <p className={styles.accountsList__email}>{email}</p>
             </div>

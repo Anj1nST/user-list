@@ -1,7 +1,7 @@
 .button {
   @apply flex items-center justify-center;
   @apply w-fit;
-  @apply border-solid border-[1px] border-strokes-primary rounded-[5px];
+  @apply border-solid border-[1px] bg-background-primary border-strokes-primary rounded-[5px];
   @apply cursor-pointer;
 }
 
@@ -23,6 +23,12 @@
   @apply flex items-center justify-center;
   @apply h-[25px] w-[25px];
   @apply mr-[10px];
+}
+
+.button__iconContainer_end {
+  @apply flex items-center justify-center;
+  @apply h-[25px] w-[25px];
+  @apply ml-[10px];
 }
 
 .button__text {
