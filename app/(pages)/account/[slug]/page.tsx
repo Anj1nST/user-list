@@ -18,23 +18,25 @@ interface AccountPageProps {
   params: { slug: string };
 }
 
-const AccountPage: FC<AccountPageProps> = ({ params: { slug } }: { params: { slug: string } }) => {
+const AccountPage: FC<AccountPageProps> = ({
+  params: { slug },
+}: {
+  params: { slug: string };
+}) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [canEdit, setCanEdit] = useState<boolean>(false);
   const authContext = useContext(AuthContext);
 
-  const { data } = useSWR( `/api/account/${slug.replace('%40', '--')}`,
-    fetcher
-  );
+  const { data } = useSWR(`/api/account/${slug.replace("%40", "--")}`, fetcher);
 
   useEffect(() => {
     if (!authContext) {
-      console.error('authContext недоступен');
+      console.error("authContext недоступен");
       return;
     }
     const { userEmail, isAuthenticated } = authContext;
 
-    if (userEmail.replace('@', '%40') === slug && isAuthenticated === true) {
+    if (userEmail.replace("@", "%40") === slug && isAuthenticated === true) {
       setCanEdit(true);
     } else {
       setCanEdit(false);
@@ -48,7 +50,7 @@ const AccountPage: FC<AccountPageProps> = ({ params: { slug } }: { params: { slu
   if (!data) return null;
 
   const { isAuthenticated, setIsAuthenticated } = authContext;
-  const { image, name, email, description } = data;
+  const { image, name, email, description, cover } = data;
 
   const handleClickEdit = () => {
     setIsModalOpen(!isModalOpen);
@@ -62,11 +64,19 @@ const AccountPage: FC<AccountPageProps> = ({ params: { slug } }: { params: { slu
   return (
     <main className={styles.accountPage__container}>
       {isModalOpen && <Modal onCloseClick={handleClickEdit} />}
-      <Cover />
+      <Cover cover={cover} />
       <div className={styles.accountPage__mainContentContainer}>
-        {image ? (
-          <Image src={image} alt={"User avatar"} fill />
-        ) : (
+        {!!image && !!image.url.match(/^\/|^(https?:\/\/)/) && (
+          <div className={styles.accountPage__avatarContainer}>
+            <Image
+              src={image.url}
+              alt="imageOfUser"
+              fill
+              objectFit="cover"
+            />
+          </div>
+        )}
+        {!image?.url && (
           <div className={styles.accountPage__placeholderContainer}>
             <AvatarPlaceholder name={name} size={"big"} />
           </div>

@@ -5,7 +5,7 @@ import Icon, { IconType } from "../Icon/Icon";
 
 interface ButtonProps {
   text: string;
-  iconType?: IconType;
+  iconType?: IconType | IconType[];
   isDisabled?: boolean;
   size?: "sm" | "md";
   fullWidth?: boolean;
@@ -34,6 +34,40 @@ const Button: React.FC<ButtonProps> = ({
   const disabledClassName = isDisabled ? styles.button_disabled : "";
   const fullWidthClassName = fullWidth && styles.button_fullWidth;
 
+  let ContentComponent = (): ReactNode => null;
+
+  if (Array.isArray(iconType) && iconType.length > 1) {
+    ContentComponent = () => {
+      return (
+        <>
+          <div className={styles.button__iconContainer}>
+            <Icon type={iconType[0]} />
+          </div>
+          <p className={`${formTextClassName} ${styles.button__text}`}>
+            {text}
+          </p>
+          <div className={styles.button__iconContainer_end}>
+            <Icon type={iconType[1]} />
+          </div>
+        </>
+      );
+    };
+  } else if (iconType && !Array.isArray(iconType)) {
+    ContentComponent = () => (
+      <>
+        {" "}
+        <div className={styles.button__iconContainer}>
+          <Icon type={iconType} />
+        </div>
+        <p className={`${formTextClassName} ${styles.button__text}`}>{text}</p>
+      </>
+    );
+  } else {
+    ContentComponent = () => (
+      <p className={`${formTextClassName} ${styles.button__text}`}>{text}</p>
+    );
+  }
+
   return (
     <button
       type={type}
@@ -41,12 +75,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={action}
       disabled={isDisabled}
     >
-      {!!iconType && (
-        <div className={styles.button__iconContainer}>
-          <Icon type={iconType} />
-        </div>
-      )}
-      <p className={`${formTextClassName} ${styles.button__text}`}>{text}</p>
+      <ContentComponent />
     </button>
   );
 };
