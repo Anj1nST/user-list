@@ -38,7 +38,7 @@ const AccountPage: FC<AccountPageProps> = ({
     }
     const { userEmail, isAuthenticated } = authContext;
 
-    if (formatEmail(userEmail) === slug && isAuthenticated === true) {
+    if (formatEmail(userEmail) === formatEmail(slug) && isAuthenticated === true) {
       setCanEdit(true);
     } else {
       setCanEdit(false);
