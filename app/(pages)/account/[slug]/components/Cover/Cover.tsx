@@ -2,6 +2,7 @@ import React, { FC, useRef, useState } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import Button from "@/app/components/Button";
+import { mutate } from "swr";
 
 interface CoverType {
   url: string;
@@ -9,9 +10,10 @@ interface CoverType {
 
 interface CoverProps {
   cover: CoverType;
+  slug: string;
 }
 
-const Cover: FC<CoverProps> = ({ cover }) => {
+const Cover: FC<CoverProps> = ({ cover, slug }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,6 +37,7 @@ const Cover: FC<CoverProps> = ({ cover }) => {
       });
 
       if (res.ok) {
+        mutate(`/api/account/${slug.replace("%40", "--")}`);
         const updatedCover = await res.json();
         setUploadedFile(null);
       } else {
@@ -53,6 +56,7 @@ const Cover: FC<CoverProps> = ({ cover }) => {
     });
 
     if (res.ok) {
+      mutate(`/api/account/${slug.replace("%40", "--")}`);
       setUploadedFile(null);
     } else {
       console.error("Ошибка при удалении изображения");

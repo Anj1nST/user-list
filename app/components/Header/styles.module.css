@@ -1,6 +1,7 @@
 .header__container {
   @apply flex justify-between;
   @apply h-20 w-full p-[15px];
+  @apply border-b border-strokes-secondary;
 }
 
 .header__brandContainer {

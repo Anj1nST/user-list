@@ -13,9 +13,11 @@ const AvatarPlaceholder: FC<AvatarPlaceholderProps> = ({ size, name }) => {
       ? styles.avatarPlaceholder__container_small
       : styles.avatarPlaceholder__container_big;
 
+  const sizeLetterClassName = size === 'big' ? styles.avatarPlaceholder__letter : '';
+
   return (
     <div className={`${styles.avatarPlaceholder__container} ${sizeClassname}`}>
-      <p>{firstLetter}</p>
+      <p className={sizeLetterClassName}>{firstLetter}</p>
     </div>
   );
 };

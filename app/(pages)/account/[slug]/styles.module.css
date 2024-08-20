@@ -8,6 +8,23 @@
   @apply w-full px-[30px] lg:px-60;
 }
 
+.accountPage__profileImageContainer {
+    @apply w-[100px] h-[100px];
+}
+
+.accountPage__profileImageContainer:hover .accountPage__placeholderContainer{
+    @apply hidden;
+}
+
+.accountPage__profileImageContainer:hover .accountPage__avatarContainer{
+    @apply hidden;
+}
+
+.accountPage__profileImageContainer:hover .accountPage__profileImageUpload{
+    @apply flex items-center justify-center;
+}
+
+
 .accountPage__placeholderContainer {
   @apply relative;
   @apply w-[100px] h-[100px];
@@ -24,8 +41,24 @@
   @apply mb-[35px];
 }
 
+.accountPage__profileImageUpload {
+    @apply hidden;
+    @apply w-[100px] h-[100px];
+    @apply rounded-full;
+    @apply bg-txt-color;
+    @apply cursor-pointer;
+}
+
+.accountPage__profileImageInputLabel {
+    @apply cursor-pointer;
+}
+
+.accountPage__profileImageInput {
+    @apply hidden;
+}
+
 .accountPage__informationContainer {
-  @apply lg:grid lg:grid-cols-2;
+  @apply flex flex-col lg:grid lg:grid-cols-2;
 }
 
 .accountPage__accountName {
@@ -40,7 +73,7 @@
 }
 
 .accountPage__editButtonContainer {
-  @apply mb-[30px];
+  @apply mb-[30px] lg:mb-0;
   @apply lg:col-[2] lg:row-[1];
 }
 

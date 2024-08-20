@@ -5,6 +5,10 @@
   @apply text-txt-color;
 }
 
+.avatarPlaceholder__letter {
+  @apply leading-[50.4px] font-normal text-[36px];
+}
+
 .avatarPlaceholder__container_big {
   @apply h-[100px] w-[100px];
 }

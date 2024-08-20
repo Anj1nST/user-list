@@ -16,7 +16,7 @@
 }
 
 .button_normalSize {
-  @apply px-[33px] py-[7px];
+  @apply px-[33px] py-[12px];
 }
 
 .button__iconContainer {

@@ -3,58 +3,70 @@
 import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import Button from "../Button";
-import styles from "./styles.module.css";
-import Icon from "../Icon/Icon";
 import { useRouter } from "next/navigation";
+
 import { AuthContext } from "@/app/context/AuthContext";
+import Icon from "@/app/components/Icon";
+import Button from "@/app/components/Button";
+
+import styles from "./styles.module.css";
 
 const validationSchema = Yup.object({
-  name: Yup.string().nonNullable().trim().required("Name is required"),
   email: Yup.string()
     .nonNullable()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string().nonNullable().required("Password is required"),
+    .email("Неправильный email формат")
+    .required("Email обязателен"),
+  password: Yup.string().nonNullable().required("Пароль обязателен"),
 });
 
-const RegisterForm = () => {
+const LoginForm = () => {
+  const [isPending, setIsPending] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
   const authContext = useContext(AuthContext) ?? {
     setIsAuthenticated: () => {},
     setUserEmail: () => {},
   };
+  const { setIsAuthenticated, setUserEmail } = authContext;
+
+  const handleLogin = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      setIsPending(true);
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const token = await response.json();
+        document.cookie = `authToken=${token}; path=/`;
+        document.cookie = `userEmail=${email}; path=/`;
+
+        setIsAuthenticated(true);
+        setUserEmail(email);
+        setIsPending(false);
+
+        router.push(`/account/${email}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       email: "",
       password: "",
     },
     validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const response = await fetch("/api/sign-up", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to sign up");
-        }
-        authContext.setIsAuthenticated(true);
-        authContext.setUserEmail(values.email);
-        router.push(`/account/${values.email}`);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        } else {
-          console.error("An unknown error occurred");
-        }
-      }
-    },
+    onSubmit: handleLogin,
   });
 
   const handleSwitchShowPassword = () => {
@@ -64,23 +76,10 @@ const RegisterForm = () => {
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>
       <div className={styles.form__inputContainer}>
-        <Icon className={styles.form__inputIcon} type="user" />
-        <input
-          className={`${styles.form__input} ${
-            formik.errors.name ? "outline-error" : ""
-          }`}
-          name="name"
-          type="text"
-          placeholder="Имя"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.name}
-        />
-      </div>
-      <div className={styles.form__inputContainer}>
         <Icon className={styles.form__inputIcon} type="email" />
         <input
           className={`${styles.form__input} ${
+            // TODO: Вынести в классы
             formik.errors.email ? "outline-error" : ""
           }`}
           name="email"
@@ -95,6 +94,7 @@ const RegisterForm = () => {
         <Icon className={styles.form__inputIcon} type="password" />
         <input
           className={`${styles.form__input} ${
+            // TODO: Вынести в классы
             formik.errors.password ? "outline-error" : ""
           }`}
           name="password"
@@ -118,12 +118,12 @@ const RegisterForm = () => {
       </div>
       <Button
         variant="form"
-        isDisabled={!(formik.isValid && formik.dirty)}
+        isDisabled={isPending || !(formik.isValid && formik.dirty)}
         type="submit"
-        text="Создать аккаунт"
+        text="Войти"
       />
     </form>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
