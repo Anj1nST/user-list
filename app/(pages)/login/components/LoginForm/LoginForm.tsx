@@ -118,6 +118,7 @@ const LoginForm = () => {
         isDisabled={isPending || !(formik.isValid && formik.dirty)}
         type="submit"
         text="Войти"
+        handleMouseDown={(event)=>{event.preventDefault()}}
       />
     </form>
   );
