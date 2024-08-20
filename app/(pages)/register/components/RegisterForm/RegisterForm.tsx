@@ -141,6 +141,7 @@ const RegisterForm = () => {
         isDisabled={isPending || !(formik.isValid && formik.dirty)}
         type="submit"
         text="Создать аккаунт"
+        handleMouseDown={(event)=>{event.preventDefault()}}
       />
     </form>
   );

@@ -11,7 +11,8 @@ interface ButtonProps {
   fullWidth?: boolean;
   variant?: "common" | "form";
   type?: "button" | "submit" | "reset" | undefined;
-  action?: () => void;
+  action?: (e: any) => void;
+  handleMouseDown?: (e: any) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = "common",
   type = "button",
   action,
+  handleMouseDown,
 }) => {
   const sizeClassName =
     size === "sm" ? styles.button_smallSize : styles.button_normalSize;
@@ -73,6 +75,7 @@ const Button: React.FC<ButtonProps> = ({
       className={`${variantClassName} ${disabledClassName} ${sizeClassName} ${fullWidthClassName}`}
       onClick={action}
       disabled={isDisabled}
+      onMouseDown={handleMouseDown}
     >
       <ContentComponent />
     </button>
