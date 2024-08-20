@@ -1,6 +1,6 @@
 import React from "react";
-import RegisterForm from "../../components/RegisterForm";
 import FormCard from "../../components/FormCard";
+import RegisterForm from "./components/RegisterForm";
 
 import styles from "./styles.module.css";
 

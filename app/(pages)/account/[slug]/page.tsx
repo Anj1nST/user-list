@@ -4,15 +4,16 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import useSWR from "swr";
 
-import AvatarPlaceholder from "@/app/components/AvatarPlaceholder/AvatarPlaceholder";
-import Button from "@/app/components/Button";
-import Modal from "./components/Modal";
-
-import styles from "./styles.module.css";
-import Cover from "./components/Cover";
 import { fetcher } from "@/app/utils/fetcher";
 import { deleteCookie } from "@/app/utils/сookies";
 import { AuthContext } from "@/app/context/AuthContext";
+import AvatarPlaceholder from "@/app/components/AvatarPlaceholder/AvatarPlaceholder";
+import Button from "@/app/components/Button";
+import Modal from "./components/Modal";
+import Cover from "./components/Cover";
+import Icon from "@/app/components/Icon";
+
+import styles from "./styles.module.css";
 
 interface AccountPageProps {
   params: { slug: string };
@@ -61,26 +62,40 @@ const AccountPage: FC<AccountPageProps> = ({
     deleteCookie("authToken");
   };
 
+  const handleUploadAvatar = () => {};
+
   return (
     <main className={styles.accountPage__container}>
       {isModalOpen && <Modal onCloseClick={handleClickEdit} />}
-      <Cover cover={cover} />
+      <Cover cover={cover} slug={slug} />
       <div className={styles.accountPage__mainContentContainer}>
-        {!!image && !!image.url.match(/^\/|^(https?:\/\/)/) && (
-          <div className={styles.accountPage__avatarContainer}>
-            <Image
-              src={image.url}
-              alt="imageOfUser"
-              fill
-              objectFit="cover"
-            />
+        <div className={styles.accountPage__profileImageContainer}>
+          {!!image && !!image.url.match(/^\/|^(https?:\/\/)/) && (
+            <div className={styles.accountPage__avatarContainer}>
+              <Image src={image.url} alt="imageOfUser" fill objectFit="cover" />
+            </div>
+          )}
+          {!image?.url && (
+            <div className={styles.accountPage__placeholderContainer}>
+              <AvatarPlaceholder name={name} size={"big"} />
+            </div>
+          )}
+          <div className={styles.accountPage__profileImageUpload} onClick={handleUploadAvatar}>
+            <form>
+              <input
+                className={styles.accountPage__profileImageInput}
+                id="avatarInput"
+                type="file"
+              />
+              <label
+                htmlFor="avatarInput"
+                className={styles.accountPage__profileImageInputLabel}
+              >
+                <Icon type="camera" />
+              </label>
+            </form>
           </div>
-        )}
-        {!image?.url && (
-          <div className={styles.accountPage__placeholderContainer}>
-            <AvatarPlaceholder name={name} size={"big"} />
-          </div>
-        )}
+        </div>
         <div className={styles.accountPage__informationContainer}>
           <h1 className={styles.accountPage__accountName}>{name}</h1>
           <p className={styles.accountPage__accountEmail}>{email}</p>
@@ -88,6 +103,7 @@ const AccountPage: FC<AccountPageProps> = ({
             <div className={styles.accountPage__editButtonContainer}>
               <Button
                 text="Редактировать"
+                size="sm"
                 iconType="pen"
                 action={handleClickEdit}
               />
@@ -99,8 +115,8 @@ const AccountPage: FC<AccountPageProps> = ({
           {canEdit && isAuthenticated && (
             <div className={styles.accountPage__signOutButtonContainer}>
               <Button
-                size="sm"
                 text="Выйти"
+                size="sm"
                 iconType="sign-out"
                 action={handleLogOutClick}
               />

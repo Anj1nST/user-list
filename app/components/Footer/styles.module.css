@@ -1,6 +1,7 @@
 .footerContainer {
   @apply flex items-center justify-center;
   @apply h-[72px];
+  @apply border-t border-strokes-secondary;
 }
 
 .footer__text {
@@ -8,5 +9,5 @@
 }
 
 .footer__link {
-  @apply text-txt-color;
+  @apply text-txt-color font-bold;
 }
