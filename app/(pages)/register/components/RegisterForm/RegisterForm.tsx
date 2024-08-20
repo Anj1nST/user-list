@@ -29,6 +29,8 @@ const RegisterForm = () => {
     setUserEmail: () => {},
   };
 
+  const { setIsAuthenticated, setUserEmail } = authContext;
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -57,15 +59,16 @@ const RegisterForm = () => {
           body: JSON.stringify({ email, password }),
         });
 
-        if (!loginResponse.ok) {
+        if (loginResponse.ok) {
+          setIsAuthenticated(true);
+          setUserEmail(email);
+          setIsPending(false);
+
+          router.push(`/account/${email}`);
+        } else {
           throw new Error("Не удалось выполнить вход");
         }
-
-        authContext.setIsAuthenticated(true);
-        authContext.setUserEmail(email);
         setIsPending(false);
-
-        router.push(`/account/${email}`);
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
@@ -141,7 +144,9 @@ const RegisterForm = () => {
         isDisabled={isPending || !(formik.isValid && formik.dirty)}
         type="submit"
         text="Создать аккаунт"
-        handleMouseDown={(event)=>{event.preventDefault()}}
+        handleMouseDown={(event) => {
+          event.preventDefault();
+        }}
       />
     </form>
   );
