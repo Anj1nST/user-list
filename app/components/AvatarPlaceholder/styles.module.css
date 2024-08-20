@@ -6,7 +6,7 @@
 }
 
 .avatarPlaceholder__letter {
-  @apply leading-[50.4px] font-normal text-[36px];
+  @apply text-[18px] leading-[25.2px] font-normal lg:leading-[50.4px] lg:text-[36px];
 }
 
 .avatarPlaceholder__container_big {

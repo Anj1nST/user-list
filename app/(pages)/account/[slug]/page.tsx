@@ -12,6 +12,7 @@ import Button from "@/app/components/Button";
 import Modal from "./components/Modal";
 import Cover from "./components/Cover";
 import Icon from "@/app/components/Icon";
+import { formatEmail } from "@/app/utils/formatEmail";
 
 import styles from "./styles.module.css";
 
@@ -28,7 +29,7 @@ const AccountPage: FC<AccountPageProps> = ({
   const [canEdit, setCanEdit] = useState<boolean>(false);
   const authContext = useContext(AuthContext);
 
-  const { data } = useSWR(`/api/account/${slug.replace("%40", "--")}`, fetcher);
+  const { data } = useSWR(`/api/account/${formatEmail(slug)}`, fetcher);
 
   useEffect(() => {
     if (!authContext) {
@@ -37,7 +38,7 @@ const AccountPage: FC<AccountPageProps> = ({
     }
     const { userEmail, isAuthenticated } = authContext;
 
-    if (userEmail.replace("@", "%40") === slug && isAuthenticated === true) {
+    if (formatEmail(userEmail) === slug && isAuthenticated === true) {
       setCanEdit(true);
     } else {
       setCanEdit(false);

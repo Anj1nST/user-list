@@ -10,6 +10,7 @@ import useSWR from "swr";
 import Image from "next/image";
 import { fetcher } from "@/app/utils/fetcher";
 import { AuthContext } from "@/app/context/AuthContext";
+import { formatEmail } from "@/app/utils/formatEmail";
 
 const Header = () => {
   const authContext = useContext(AuthContext);
@@ -19,7 +20,7 @@ const Header = () => {
   const userEmail = authContext?.userEmail ?? "";
 
   const { data } = useSWR(
-    isAuthenticated ? `/api/account/${userEmail.replace('@', '--')}` : null,
+    isAuthenticated ? `/api/account/${formatEmail(userEmail)}}` : null,
     fetcher
   );
 
