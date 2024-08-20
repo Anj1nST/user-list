@@ -17,10 +17,12 @@ export async function POST(request: Request) {
     const loginResponseData = await loginResponse.json();
 
     if (!loginResponse.ok) {
-      return NextResponse.json({
-        message: "Не удалось выполнить вход",
-        status: loginResponse.status,
-      });
+      return NextResponse.json(
+        {
+          message: "Не удалось выполнить вход",
+        },
+        { status: loginResponse.status }
+      );
     } else {
       cookies().set("authToken", loginResponseData, {
         maxAge: 3600 * 24,

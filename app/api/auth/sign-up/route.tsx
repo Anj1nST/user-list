@@ -16,10 +16,12 @@ export async function POST(request: Request) {
     );
 
     if (!signUpResponse.ok) {
-      return NextResponse.json({
-        message: "Не удалось выполнить регистрацию",
-        status: signUpResponse.status,
-      });
+      return NextResponse.json(
+        {
+          message: "Не удалось выполнить регистрацию",
+        },
+        { status: signUpResponse.status }
+      );
     } else {
       return NextResponse.json(signUpResponse);
     }
