@@ -45,16 +45,13 @@ const LoginForm = () => {
       });
 
       if (response.ok) {
-        const token = await response.json();
-        document.cookie = `authToken=${token}; path=/`;
-        document.cookie = `userEmail=${email}; path=/`;
-
         setIsAuthenticated(true);
         setUserEmail(email);
         setIsPending(false);
 
         router.push(`/account/${email}`);
       }
+      setIsPending(false);
     } catch (err) {
       console.error(err);
     }

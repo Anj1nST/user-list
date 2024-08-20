@@ -10,6 +10,7 @@
 
 .accountPage__profileImageContainer {
     @apply w-[100px] h-[100px];
+    @apply mb-[35px];
 }
 
 .accountPage__profileImageContainer:hover .accountPage__placeholderContainer{
@@ -30,7 +31,6 @@
   @apply w-[100px] h-[100px];
   @apply rounded-full;
   @apply overflow-hidden;
-  @apply mb-[35px];
 }
 
 .accountPage__avatarContainer {
@@ -38,7 +38,6 @@
   @apply w-[100px] h-[100px];
   @apply rounded-full;
   @apply overflow-hidden;
-  @apply mb-[35px];
 }
 
 .accountPage__profileImageUpload {

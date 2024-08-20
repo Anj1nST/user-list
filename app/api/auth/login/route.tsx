@@ -25,6 +25,9 @@ export async function POST(request: Request) {
       cookies().set("authToken", loginResponseData, {
         maxAge: 3600 * 24,
       });
+      cookies().set("userEmail", email, {
+        maxAge: 3600 * 24,
+      });
       return NextResponse.json(loginResponseData);
     }
   } catch (err) {

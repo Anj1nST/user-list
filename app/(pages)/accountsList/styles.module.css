@@ -1,6 +1,6 @@
 .accountsPage__container {
   @apply flex flex-col;
-  @apply w-full max-h-full px-[30px] pt-[50px] pb-[100px] lg:px-60;
+  @apply w-full max-h-full px-[30px] pt-[50px] pb-[144px] lg:px-60 lg:pb-[100px];
   @apply overflow-y-hidden;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .accountsList__textInfo {
-  @apply flex flex-col;
+  @apply flex flex-col lg:w-full lg:flex-row lg:items-center lg:justify-between;
   @apply max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis;
 }
 
