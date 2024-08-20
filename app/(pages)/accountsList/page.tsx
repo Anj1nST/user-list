@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import AvatarPlaceholder from "@/app/components/AvatarPlaceholder/AvatarPlaceholder";
 import { UserData } from "@/app/types";
 import { fetcher } from "@/app/utils/fetcher";
+import { formatEmail } from "@/app/utils/formatEmail";
 
 import styles from "./styles.module.css";
 
@@ -18,7 +19,7 @@ const AccountList = () => {
   }
 
   const handleClickUser = (email: string) => {
-    router.push(`/account/${email}`);
+    router.push(`/account/${formatEmail(email)}`);
   };
 
   return (

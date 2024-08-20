@@ -1,8 +1,12 @@
 import React, { FC, useRef, useState } from "react";
-import styles from "./styles.module.css";
+
 import Image from "next/image";
-import Button from "@/app/components/Button";
 import { mutate } from "swr";
+
+import { formatEmail } from "@/app/utils/formatEmail";
+import Button from "@/app/components/Button";
+
+import styles from "./styles.module.css";
 
 interface CoverType {
   url: string;
@@ -37,7 +41,7 @@ const Cover: FC<CoverProps> = ({ cover, slug }) => {
       });
 
       if (res.ok) {
-        mutate(`/api/account/${slug.replace("%40", "--")}`);
+        mutate(`api/account/${formatEmail(slug)}`);
         const updatedCover = await res.json();
         setUploadedFile(null);
       } else {
@@ -56,7 +60,7 @@ const Cover: FC<CoverProps> = ({ cover, slug }) => {
     });
 
     if (res.ok) {
-      mutate(`/api/account/${slug.replace("%40", "--")}`);
+      mutate(`api/account/${formatEmail(slug)}`);
       setUploadedFile(null);
     } else {
       console.error("Ошибка при удалении изображения");
