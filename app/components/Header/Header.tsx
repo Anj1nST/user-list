@@ -20,7 +20,7 @@ const Header = () => {
   const userEmail = authContext?.userEmail ?? "";
 
   const { data } = useSWR(
-    isAuthenticated ? `/api/account/${formatEmail(userEmail)}}` : null,
+    isAuthenticated ? `/api/account/${formatEmail(userEmail)}` : null,
     fetcher
   );
 
@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   const handleUserClick = () => {
-    router.push(`/account/${userEmail}`)
+    router.push(`/account/${formatEmail(userEmail)}`)
   };
 
   return (

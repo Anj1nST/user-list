@@ -41,8 +41,7 @@ const EditUserForm: FC<EditUserFormProps> = ({ onCloseClick }) => {
         }
 
         const updatedData = await res.json();
-        console.log("Профиль успешно обновлен:", updatedData);
-        onCloseClick(); // Закрыть форму после успешного обновления
+        onCloseClick();
       } catch (error) {
         console.error("Произошла ошибка:", error);
       }
