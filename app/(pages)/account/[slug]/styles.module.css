@@ -8,20 +8,25 @@
   @apply w-full px-[30px] lg:px-60;
 }
 
+.accountPage__profileImageContainerUpload {
+  @apply w-[100px] h-[100px];
+  @apply mb-[35px];
+}
+
 .accountPage__profileImageContainer {
     @apply w-[100px] h-[100px];
     @apply mb-[35px];
 }
 
-.accountPage__profileImageContainer:hover .accountPage__placeholderContainer{
+.accountPage__profileImageContainerUpload:hover .accountPage__placeholderContainer{
     @apply hidden;
 }
 
-.accountPage__profileImageContainer:hover .accountPage__avatarContainer{
+.accountPage__profileImageContainerUpload:hover .accountPage__avatarContainer{
     @apply hidden;
 }
 
-.accountPage__profileImageContainer:hover .accountPage__profileImageUpload{
+.accountPage__profileImageContainerUpload:hover .accountPage__profileImageUpload{
     @apply flex items-center justify-center;
 }
 

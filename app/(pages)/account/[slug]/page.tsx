@@ -65,12 +65,14 @@ const AccountPage: FC<AccountPageProps> = ({
 
   const handleUploadAvatar = () => {};
 
+  const profileImageContainerClassName = canEdit ? styles.accountPage__profileImageContainerUpload : styles.accountPage__profileImageContainer
+
   return (
     <main className={styles.accountPage__container}>
       {isModalOpen && <Modal onCloseClick={handleClickEdit} />}
-      <Cover cover={cover} slug={slug} />
+      <Cover cover={cover} slug={slug} canEdit={canEdit} />
       <div className={styles.accountPage__mainContentContainer}>
-        <div className={styles.accountPage__profileImageContainer}>
+        <div className={profileImageContainerClassName}>
           {!!image && !!image.url.match(/^\/|^(https?:\/\/)/) && (
             <div className={styles.accountPage__avatarContainer}>
               <Image src={image.url} alt="imageOfUser" fill objectFit="cover" />
