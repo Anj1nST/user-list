@@ -15,9 +15,10 @@ interface CoverType {
 interface CoverProps {
   cover: CoverType;
   slug: string;
+  canEdit?: boolean;
 }
 
-const Cover: FC<CoverProps> = ({ cover, slug }) => {
+const Cover: FC<CoverProps> = ({ cover, slug, canEdit = false }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
@@ -69,35 +70,37 @@ const Cover: FC<CoverProps> = ({ cover, slug }) => {
 
   return (
     <div className={styles.cover__container}>
-      <div className={styles.cover__imageUpload}>
-        <input
-          type="file"
-          id="imageUpload"
-          className={styles.cover__imageUploadInput}
-          ref={inputFileRef}
-          onChange={handleFileChange}
-        />
-        <label htmlFor="imageUpload">
-          {!cover && (
-            <Button
-              type="button"
-              text="Загрузить"
-              size="sm"
-              iconType={["upload", "image"]}
-              action={handleUploadClick}
-            />
-          )}
-          {!!cover && (
-            <Button
-              type="button"
-              text="Удалить"
-              size="sm"
-              iconType={["trash", "image"]}
-              action={handleDeleteClick}
-            />
-          )}
-        </label>
-      </div>
+      {canEdit && (
+        <div className={styles.cover__imageUpload}>
+          <input
+            type="file"
+            id="imageUpload"
+            className={styles.cover__imageUploadInput}
+            ref={inputFileRef}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="imageUpload">
+            {!cover && (
+              <Button
+                type="button"
+                text="Загрузить"
+                size="sm"
+                iconType={["upload", "image"]}
+                action={handleUploadClick}
+              />
+            )}
+            {!!cover && (
+              <Button
+                type="button"
+                text="Удалить"
+                size="sm"
+                iconType={["trash", "image"]}
+                action={handleDeleteClick}
+              />
+            )}
+          </label>
+        </div>
+      )}
       {!!cover && !!cover.url.match(/^\/|^(https?:\/\/)/) && (
         <Image src={cover.url} alt="imageOfUser" fill objectFit="cover" />
       )}
